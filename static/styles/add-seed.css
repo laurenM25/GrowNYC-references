@@ -1,0 +1,14 @@
+.page-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+body {
+    display: grid;
+    grid-template-rows: 100px 100px 200px 100px;
+}
+
+div {
+    display: inline;
+}

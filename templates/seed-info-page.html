@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Seed Lookup: {{seed}}</title>
+    <link href="{{url_for('static', filename='styles/general.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='styles/seed-info.css')}}" rel="stylesheet" />
+</head>
+
+<body>
+    <div>{{seed}} Possible Matches:</div>
+    <div>
+        {% for match, filenames in matches.items() %}
+        <div class="square-seed-preview">
+            <div><a href="/pdf-viewer?variety={{match}}">{{match}}</a></div>
+            {% for filename in filenames%}
+            <img class="little-photo" src="static/icons/{{filename}}">
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+    <div>
+        <form action="homepage">
+            <button class="return-home-button">Return Home</button>
+        </form>
+    </div>
+</body>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Organizing Materials for School Gardens</title>
+    <link href="{{ url_for('static', filename='styles/general.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='styles/homepage.css') }}" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="page-heading">
+        GrowNYC School Gardens references
+    </div>
+    <div class="rows">
+        <div class="page-row">
+            <div class="page-column">
+                <div class="column-heading">Seed Distribution</div>
+                <form action="seed-info-page">
+                    <input class="search-bar" list="seed-type" name="seed-type" placeholder="Search a seed">
+                    <datalist id="seed-type">
+                        {% for seed in seeds %}
+                        <option value='{{seed}}'></option>
+                        {%endfor%}
+                    </datalist>
+                </form>
+                <div>Can't find what you need? <a href="/add-seed">Add a seed.</a></div>
+            </div>
+            <div class="page-column">
+                <div class="column-heading">Blah</div>
+            </div>
+            <div class="page-column">
+                <div class="column-heading">Guides</div>
+                <div>Using Avery Label Customizer</div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+</body>
