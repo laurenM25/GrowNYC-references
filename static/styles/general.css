@@ -16,6 +16,7 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-bottom: 20px;
 }
 
 .page-column {
@@ -25,4 +26,24 @@ body {
 
 .search-bar {
     border-radius: 5px;
+}
+
+
+button {
+    border-radius: 5px;
+}
+
+select:hover,
+datalist:hover {
+    background-color: lightblue;
+}
+
+button:hover {
+    background-color: rgb(3, 59, 3);
+    color: white;
+}
+
+.return-home-button {
+    background-color: lightgreen;
+    color: black;
 }

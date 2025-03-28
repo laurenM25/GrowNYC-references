@@ -8,7 +8,7 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/homepage')
 def index():
-    return render_template('homepage.html',seeds=list_of_seeds())
+    return render_template('homepage.html',seeds=list_of_seeds(), companies=list_of_companies())
 
 @app.route('/seed-info-page')
 def seed_info_page():
@@ -30,14 +30,14 @@ def seed_info_page():
                     matches.append(line)
 
 
-    return render_template('seed-info-page.html', seed=seed_type.capitalize(), matches = names_and_photos(matches))
+    return render_template('seed-info-page.html', seed=seed_type.capitalize(), matches = names_and_photos(matches),companies=list_of_companies())
 
 @app.route('/pdf-viewer')
 def pdf_viewer():
     variety = request.args.get('variety').title() 
     pic_filename = get_photo_filename(variety)
-    company = "Johnny's Seeds"
-    date = "12/2024"
+    company = request.args.get('company')
+    date = request.args.get('month') + " " +  request.args.get("year")
 
     return render_template('pdf-viewer.html', rows=10, columns=3, picture=pic_filename, variety=variety, company=company, date=date)
 
@@ -52,10 +52,20 @@ def confirm_entry_page():
     specific_seed = request.args.get('specific-seed').lower()
     company = request.args.get('company').title()
     QR_link = request.args.get('QR-link')
+
+    #confirm no blank inputs
+    inputs = [generic_seed,specific_seed,company,QR_link]
+    if any(len(ele)==0 for ele in inputs):
+        expl="Missing an input. Make sure to fill out all areas on the form."
+        return render_template('error.html', error="Missing value", expl=expl)
+
     plant_image = request.args.get('fileUpload')
 
     #add entry to database
-    update_database_list(generic_seed,specific_seed,company,QR_link,plant_image)
+    update = update_database_list(generic_seed,specific_seed,company,QR_link,plant_image)
+    if isinstance(update,str):
+        expl = "An error occured when updating the database list with the image. System error."
+        return render_template('error.html', error=update, expl=expl)
 
     seed_name = (specific_seed + generic_seed).title()
 

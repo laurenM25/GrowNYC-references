@@ -56,7 +56,12 @@ def update_database_list(generic, specific, company, QR, image):
     image_name = get_photo_filename(name)
     QR_name = get_QR_filename(name)
 
-    save_user_input_img(image_name,image)
+    save = save_user_input_img(image_name,image)
+    if isinstance(save,str):
+        if save == "Error":
+            return "General Error"
+        else:
+            return "File Not Found Error"
     #DEAL WITH COMPANY LATER --> johnny default, but if Hudson, need that to reflect in filename
 
 
@@ -65,7 +70,13 @@ def create_QR(link_for_QR):
     return
 
 def save_user_input_img(filepath, content):
-    img = Image.open(content)
-    img.save(filepath)
+
+    try:
+        img = Image.open(content)
+        img.save(filepath)
+    except FileNotFoundError:
+        return "FileNotFoundError"
+    except:
+        return "Error"
 
     #fix later, need POST, etc.

@@ -7,14 +7,52 @@
 </head>
 
 <body>
-    <div>{{seed}} Possible Matches:</div>
+    <div class="page-heading">{{seed}} Possible Matches:</div>
     <div>
         {% for match, filenames in matches.items() %}
+        <div class="match-title">{{match}}</div>
         <div class="square-seed-preview">
-            <div><a href="/pdf-viewer?variety={{match}}">{{match}}</a></div>
             {% for filename in filenames%}
             <img class="little-photo" src="static/icons/{{filename}}">
             {% endfor %}
+            <div class="pdf-options-box">Create pdf:
+                <form action="/pdf-viewer?variety={{match}}" method="get">
+                    <!-- Seed variety -->
+                    <label for="variety">Seed</label><br>
+                    <select id="variety" name="variety">
+                        <option value="{{match}}">{{match}}</option>
+                    </select>
+                    <!-- Seed company -->
+                    <br><label>Seed company:</label>
+                    <input class="search-bar" type="textbox" list="company" placeholder="choose company" name="company">
+                    <datalist id="company">
+                        {% for company in companies %}
+                        <option value='{{company}}'></option>
+                        {%endfor%}
+                    </datalist>
+                    <br>
+                    <!-- Sow date -->
+                    <br><label for="month">Sow date</label><br>
+                    <select id="month" name="month">
+                        <option value="Jan.">January</option>
+                        <option value="Feb.">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="Aug.">August</option>
+                        <option value="Sept.">September</option>
+                        <option value="Oct.">October</option>
+                        <option value="Nov.">November</option>
+                        <option value="Dec.">December</option>
+                    </select>
+                    <input class="year-box" type="text" id="year" name="year" placeholder="YYYY">
+                    <br>
+                    <!-- Generate pdf button -->
+                    <button>generate pdf</button>
+                </form>
+            </div>
         </div>
         {% endfor %}
     </div>

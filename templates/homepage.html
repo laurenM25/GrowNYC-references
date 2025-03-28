@@ -21,15 +21,59 @@
                         <option value='{{seed}}'></option>
                         {%endfor%}
                     </datalist>
-                </form>
+                </form><br>
                 <div>Can't find what you need? <a href="/add-seed">Add a seed.</a></div>
             </div>
             <div class="page-column">
-                <div class="column-heading">Blah</div>
-            </div>
-            <div class="page-column">
                 <div class="column-heading">Guides</div>
-                <div>Using Avery Label Customizer</div>
+                <div><a href="https://docs.google.com/document/d/1yAuVVrQUOgCDJTch3IgE2xbegQUQoEETelGP7g52OVQ/edit?usp=sharing"
+                        target="_blank">Using Avery Label Customizer</a></div>
+            </div>
+        </div>
+        <div class="page-row">
+            <div class="page-column">
+                <div class="column-heading">Quick create pdf</div>
+                <div class="pdf-options-box">
+                    <form action="/pdf-viewer?variety={{match}}" method="get">
+                        <!-- Seed variety -->
+                        <input class="search-bar" list="variety" name="variety" placeholder="Search a seed">
+                        <datalist id="variety">
+                            {% for seed in seeds %}
+                            <option value='{{seed}}'></option>
+                            {%endfor%}
+                        </datalist>
+                        <!-- Seed company -->
+                        <br><label>Seed company:</label>
+                        <input class="search-bar" type="textbox" list="company" placeholder="choose company"
+                            name="company">
+                        <datalist id="company">
+                            {% for company in companies %}
+                            <option value='{{company}}'></option>
+                            {%endfor%}
+                        </datalist>
+                        <br>
+                        <!-- Sow date -->
+                        <br><label for="month">Sow date</label><br>
+                        <select id="month" name="month">
+                            <option value="Jan.">January</option>
+                            <option value="Feb.">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="Aug.">August</option>
+                            <option value="Sept.">September</option>
+                            <option value="Oct.">October</option>
+                            <option value="Nov.">November</option>
+                            <option value="Dec.">December</option>
+                        </select>
+                        <input class="year-box" type="text" id="year" name="year" placeholder="YYYY">
+                        <br>
+                        <!-- Generate pdf button -->
+                        <button>generate pdf</button>
+                    </form>
+                </div>
             </div>
         </div>
 

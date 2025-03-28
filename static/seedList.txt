@@ -14,7 +14,7 @@ tomatillo
 radish: purple heart
 beet: chioggia
 squash: patty pan
-dill
+dill: teddy
 marigold: tangerine gem
 soybean: chiba green
 spinach: seaside
