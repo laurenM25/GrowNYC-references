@@ -1,4 +1,5 @@
 # Purpose
+_Project started March 2025_\
 To make operations more efficient for my work at GrowNYC, I decided to create a hub for materials I use often. One feature of this hub is a "seed look-up", where the user can search for a seed variety, obtain its image and QR code linking to the webpage about the variety, and the user will have the option to print a label sheet pdf in the dimensions of Avery 5160 30-count sheet.
 
 ## The Data Base
