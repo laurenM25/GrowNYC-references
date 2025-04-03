@@ -1,33 +1,43 @@
-cauliflower
-fennel
-bell pepper
-swiss chard
+cauliflower: fujiyama
+fennel: fino
+bell pepper: ace
+swiss chard: bright lights
 hyssop: anise
-shallot
-parsley
-turnip
+shallot: innovator
+parsley: giant of italy
+turnip: hakurei
 carrot: dragon
 basil
-eggplant
+eggplant: petch siam
 lettuce: purple fusion
 tomatillo
 radish: purple heart
-beet: chioggia
-squash: patty pan
+beet: chioggia guardsmark
+squash: patty pan, yellow summer
 dill: teddy
 marigold: tangerine gem
 soybean: chiba green
 spinach: seaside
-corn: montana morado, popcorn
+corn: montana morado, miniature colored popcorn
 nasturtium: empress of india
-python bean
-cover crop: fall cover crop
-snap peas: royal snap
-delft blue nigella
+bean: python
+cover crop: fall
+snap peas: royal snap ii
+nigella: delft blue
 brocolli: green magic
 chamomile: german
 black-eyed susan: triloba
-sunflower: autumn beauty, teddy bear
+sunflower: autumn beauty, teddy bear, royal
 sweet marjoram
 cucumber: striped armenian
 tomato: black cherry
+amaranth
+kale: black magic
+lemon balm
+salvia: oxford blue
+shiso: red
+bok choy: shikibu
+brussel sprouts: silvia
+argula: standard
+matricaria: tetra white
+cosmos: versailles red

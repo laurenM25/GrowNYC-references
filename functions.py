@@ -12,7 +12,7 @@ def names_and_photos(matches):
     #my_dict = {"black cherry tomato": ["black-cherry-tomato-QR.png", "black-cherry-tomato.jpg"], "chiba green soybean": ["chiba-green-soybean-QR.png", "chiba-green-soybean.jpg"]}
     return my_dict
 
-def get_QR_filename(variety_name):
+def get_QR_filename(variety_name): #input a string, output a string
     variety_name = variety_name.strip().lower()
     return "static/icons/" + variety_name.replace(" ", "-") + "-QR.png"
 
@@ -30,7 +30,7 @@ def list_of_seeds(): #for the drop-down list on homepage
                 varieties = varieties.split(",")
 
                 for variety in varieties:
-                    item = variety + " " + line.split(":")[0]
+                    item = variety.strip() + " " + line.split(":")[0]
                     seeds.append(item)
             else:
                 seeds.append(line)
