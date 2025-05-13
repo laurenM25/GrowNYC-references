@@ -45,13 +45,13 @@ def pdf_viewer():
 def add_seed_page():
     return render_template('add-seed.html',seeds=list_of_seeds(), generics=list_of_generics(), companies=list_of_companies())
 
-@app.route('/confirm-new-entry')
+@app.route('/confirm-new-entry', methods=['POST'])
 def confirm_entry_page():
     #get info
-    generic_seed = request.args.get('generic-seed').lower()
-    specific_seed = request.args.get('specific-seed').lower()
-    company = request.args.get('company').title()
-    QR_link = request.args.get('QR-link')
+    generic_seed = request.form.get('generic-seed').lower()
+    specific_seed = request.form.get('specific-seed').lower()
+    company = request.form.get('company').title()
+    QR_link = request.form.get('QR-link')
 
     #confirm no blank inputs
     inputs = [generic_seed,specific_seed,company,QR_link]
@@ -59,7 +59,7 @@ def confirm_entry_page():
         expl="Missing an input. Make sure to fill out all areas on the form."
         return render_template('error.html', error="Missing value", expl=expl)
 
-    plant_image = request.args.get('fileUpload')
+    plant_image = request.files['fileUpload']
 
     #add entry to database
     update = update_database_list(generic_seed,specific_seed,company,QR_link,plant_image)
@@ -67,7 +67,7 @@ def confirm_entry_page():
         expl = "An error occured when updating the database list with the image. System error."
         return render_template('error.html', error=update, expl=expl)
 
-    seed_name = (specific_seed + generic_seed).title()
+    seed_name = (specific_seed + " " + generic_seed).title()
 
     #render template
     return render_template('confirm-new-entry.html',seed_name=seed_name)

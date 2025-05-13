@@ -5,7 +5,7 @@ swiss chard: bright lights
 hyssop: anise
 shallot: innovator
 parsley: giant of italy
-turnip: hakurei
+turnip:hakurei
 carrot: dragon
 basil
 eggplant: petch siam

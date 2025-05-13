@@ -1,4 +1,5 @@
 from PIL import Image
+from werkzeug.utils import secure_filename
 
 def names_and_photos(matches):
     my_dict = {}
@@ -14,11 +15,11 @@ def names_and_photos(matches):
 
 def get_QR_filename(variety_name): #input a string, output a string
     variety_name = variety_name.strip().lower()
-    return "icons/" + variety_name.replace(" ", "-") + "-QR.png"
+    return variety_name.replace(" ", "-") + "-QR.png"
 
 def get_photo_filename(variety_name):
     variety_name = variety_name.strip().lower()
-    return "icons/" + variety_name.replace(" ", "-") + ".jpg"
+    return variety_name.replace(" ", "-") + ".jpg"
 
 def list_of_seeds(): #for the drop-down list on homepage
     seeds = []
@@ -52,16 +53,35 @@ def list_of_companies():
     return companies
 
 def update_database_list(generic, specific, company, QR, image): 
-    name = specific + generic
+    name = specific + " " + generic
     image_name = get_photo_filename(name)
     QR_name = get_QR_filename(name)
 
     save = save_user_input_img(image_name,image)
-    if isinstance(save,str):
-        if save == "Error":
-            return "General Error"
+
+    #now save name to file
+    with open('static/seedList.txt', 'r+') as file:
+        lines = file.readlines()  # Read all lines from the file
+
+        matching_line = next((line for line in lines if line.split(":")[0].strip().lower() == generic.lower()), None)
+
+        if matching_line:
+            parts = matching_line.strip().split(":")
+            varieties = parts[1].strip()
+            # If the specific variety isn't already in the list, append it
+            if specific.lower() not in varieties.lower():
+                parts[1] = varieties + ", " + specific
+                # Update the line in the list
+                updated_line = ":".join(parts) + "\n"
+                lines[lines.index(matching_line)] = updated_line
         else:
-            return "File Not Found Error"
+            #  no matching line is found --> create a new line and append it
+            lines.append(f"{generic}: {specific}\n")
+        
+        #update file with new lines
+        file.seek(0)  # cursor moves back to the start of the file
+        file.writelines(lines)  #add modified content back
+
     #DEAL WITH COMPANY LATER --> johnny default, but if Hudson, need that to reflect in filename
 
 
@@ -69,14 +89,8 @@ def create_QR(link_for_QR):
     #create QR, save to icons
     return
 
-def save_user_input_img(filepath, content):
-
-    try:
-        img = Image.open(content)
-        img.save(filepath)
-    except FileNotFoundError:
-        return "FileNotFoundError"
-    except:
-        return "Error"
+def save_user_input_img(filepath, file):
+    if file:
+        file.save('static/icons/' + secure_filename(filepath))
 
     #fix later, need POST, etc.
