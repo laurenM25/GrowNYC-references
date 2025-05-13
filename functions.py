@@ -103,7 +103,10 @@ def update_database_list(generic, specific, company, QR_link, image):
             varieties = parts[1].strip()
             # If the specific variety isn't already in the list, append it
             if specific.lower() not in varieties.lower():
-                parts[1] = varieties + ", " + specific
+                if len(varieties) > 1:
+                    parts[1] = varieties + ", " + specific
+                else:
+                    parts[1] = specific
                 # Update the line in the list
                 updated_line = ":".join(parts) + "\n"
                 lines[lines.index(matching_line)] = updated_line

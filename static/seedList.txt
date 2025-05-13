@@ -5,12 +5,12 @@ swiss chard: bright lights
 hyssop: anise
 shallot: innovator
 parsley: giant of italy
-turnip:hakurei
+turnip: hakurei
 carrot: dragon
-basil
+basil: 
 eggplant: petch siam
 lettuce: purple fusion
-tomatillo
+tomatillo: toma verde
 radish: purple heart
 beet: chioggia guardsmark
 squash: patty pan, yellow summer
@@ -21,19 +21,19 @@ spinach: seaside
 corn: montana morado, miniature colored popcorn
 nasturtium: empress of india
 bean: python
-cover crop: fall
+cover crop:fall, yellow mustard
 snap peas: royal snap ii
 nigella: delft blue
 brocolli: green magic
 chamomile: german
 black-eyed susan: triloba
 sunflower: autumn beauty, teddy bear, royal
-sweet marjoram
+sweet marjoram: 
 cucumber: striped armenian
 tomato: black cherry
-amaranth
+amaranth: 
 kale: black magic
-lemon balm
+lemon balm: 
 salvia: oxford blue
 shiso: red
 bok choy: shikibu
@@ -41,3 +41,4 @@ brussel sprouts: silvia
 argula: standard
 matricaria: tetra white
 cosmos: versailles red
+snow peas: royal
