@@ -1,5 +1,7 @@
 from PIL import Image
 from werkzeug.utils import secure_filename
+import qrcode
+import os
 
 def names_and_photos(matches):
     my_dict = {}
@@ -16,6 +18,34 @@ def names_and_photos(matches):
 def get_QR_filename(variety_name): #input a string, output a string
     variety_name = variety_name.strip().lower()
     return variety_name.replace(" ", "-") + "-QR.png"
+
+def create_qr_code(data, filename):
+    if not data.startswith("http://") and not data.startswith("https://"):
+        raise ValueError("Invalid link — must start with http:// or https://")
+    
+    # Create a QR code instance
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    # Add data to the QR code
+    qr.add_data(data)
+    qr.make(fit=True)
+
+    # Create an image from the QR code instance
+    img = qr.make_image(fill_color="black", back_color="white")
+
+    # Make sure the directory exists
+    save_path = os.path.join('static', 'icons')
+    os.makedirs(save_path, exist_ok=True)
+
+    # Save the image to your static folder
+    img_path = os.path.join(save_path, filename)
+    img.save(img_path)
+
+    return img_path  # Return path to image for reference
 
 def get_photo_filename(variety_name):
     variety_name = variety_name.strip().lower()
@@ -52,10 +82,13 @@ def list_of_companies():
 
     return companies
 
-def update_database_list(generic, specific, company, QR, image): 
+def update_database_list(generic, specific, company, QR_link, image): 
     name = specific + " " + generic
     image_name = get_photo_filename(name)
     QR_name = get_QR_filename(name)
+
+    #create QR 
+    create_qr_code(QR_link,QR_name)
 
     save = save_user_input_img(image_name,image)
 

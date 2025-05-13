@@ -24,10 +24,10 @@ def seed_info_page():
                     varieties = varieties.split(",")
 
                     for variety in varieties:
-                        item = variety + " " + line.split(":")[0]
+                        item = variety.strip() + " " + line.split(":")[0].strip()
                         matches.append(item)
                 else:
-                    matches.append(line)
+                    matches.append(line.strip())
 
 
     return render_template('seed-info-page.html', seed=seed_type.capitalize(), matches = names_and_photos(matches),companies=list_of_companies())
