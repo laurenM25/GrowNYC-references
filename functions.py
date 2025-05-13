@@ -14,11 +14,11 @@ def names_and_photos(matches):
 
 def get_QR_filename(variety_name): #input a string, output a string
     variety_name = variety_name.strip().lower()
-    return "static/icons/" + variety_name.replace(" ", "-") + "-QR.png"
+    return "icons/" + variety_name.replace(" ", "-") + "-QR.png"
 
 def get_photo_filename(variety_name):
     variety_name = variety_name.strip().lower()
-    return "static/icons/" + variety_name.replace(" ", "-") + ".jpg"
+    return "icons/" + variety_name.replace(" ", "-") + ".jpg"
 
 def list_of_seeds(): #for the drop-down list on homepage
     seeds = []

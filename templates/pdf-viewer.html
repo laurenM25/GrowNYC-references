@@ -12,7 +12,7 @@
         {% for c in range(columns) %}
         <div class="column">
             <div>
-                <img src="{{picture}}">
+                <img src="{{ url_for('static', filename = picture)}}">
             </div>
             <div>
                 <p class="variety-title">{{variety}}</p>

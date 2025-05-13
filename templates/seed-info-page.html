@@ -13,7 +13,7 @@
         <div class="match-title">{{match}}</div>
         <div class="square-seed-preview">
             {% for filename in filenames%}
-            <img class="little-photo" src="static/icons/{{filename}}">
+            <img class="little-photo" src="{{ url_for('static', filename='icons/' + filename) }}">
             {% endfor %}
             <div class="pdf-options-box">Create pdf:
                 <form action="/pdf-viewer?variety={{match}}" method="get">
