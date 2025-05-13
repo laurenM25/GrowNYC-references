@@ -5,7 +5,13 @@ import qrcode
 import os
 
 # Initialize boto3 S3 client (for remote storage of photos)
-s3 = boto3.client('s3')
+session = boto3.session.Session(
+    aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+    aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
+    region_name=os.getenv("AWS_DEFAULT_REGION")
+)
+
+s3 = session.client('s3')
 BUCKET_NAME = 'grownyc-app-assets'
 
 def names_and_photos(matches):
