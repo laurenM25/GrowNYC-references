@@ -1,18 +1,24 @@
 from PIL import Image
 from werkzeug.utils import secure_filename
+import boto3
 import qrcode
 import os
+
+# Initialize boto3 S3 client (for remote storage of photos)
+s3 = boto3.client('s3')
+BUCKET_NAME = 'grownyc-app-assets'
 
 def names_and_photos(matches):
     my_dict = {}
 
+    base = f"https://{BUCKET_NAME}.s3.amazonaws.com/icons/"
     for match in matches:
-        match = match.strip()
-        f1 = match.replace(" ", "-") + "-QR.png"
-        f2 = match.replace(" ", "-") + ".jpg"
-        my_dict[match] = [f1,f2]
-
-    #my_dict = {"black cherry tomato": ["black-cherry-tomato-QR.png", "black-cherry-tomato.jpg"], "chiba green soybean": ["chiba-green-soybean-QR.png", "chiba-green-soybean.jpg"]}
+        key = match.strip().replace(" ", "-")
+        my_dict[match] = [
+        base + key + "-QR.png",
+        base + key + ".jpg"
+        ]
+    
     return my_dict
 
 def get_QR_filename(variety_name): #input a string, output a string
@@ -41,11 +47,19 @@ def create_qr_code(data, filename):
     save_path = os.path.join('static', 'icons')
     os.makedirs(save_path, exist_ok=True)
 
-    # Save the image to your static folder
-    img_path = os.path.join(save_path, filename)
-    img.save(img_path)
+    #save to AWS
+    from io import BytesIO
+    buf = BytesIO()
+    img.save(buf, format='PNG')
+    buf.seek(0)
 
-    return img_path  # Return path to image for reference
+    s3.upload_fileobj(
+        buf,
+        BUCKET_NAME,
+        f'icons/{filename}',
+        ExtraArgs={'ContentType': 'image/png'}
+    )
+    return f"https://{BUCKET_NAME}.s3.amazonaws.com/icons/{filename}"
 
 def get_photo_filename(variety_name):
     variety_name = variety_name.strip().lower()
@@ -117,6 +131,7 @@ def update_database_list(generic, specific, company, QR_link, image):
         #update file with new lines
         file.seek(0)  # cursor moves back to the start of the file
         file.writelines(lines)  #add modified content back
+        upload_txt_to_s3('static/seedList.txt')
 
     #DEAL WITH COMPANY LATER --> johnny default, but if Hudson, need that to reflect in filename
 
@@ -126,7 +141,27 @@ def create_QR(link_for_QR):
     return
 
 def save_user_input_img(filepath, file):
-    if file:
-        file.save('static/icons/' + secure_filename(filepath))
 
-    #fix later, need POST, etc.
+    if file:
+        filename = secure_filename(filepath)
+        s3.upload_fileobj(
+            file,
+            BUCKET_NAME,
+            f'icons/{filename}',
+            ExtraArgs={'ContentType': file.content_type}
+        )
+
+        # Return public URL for the image
+        s3_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/icons/{filename}"
+        return s3_url
+
+    return None
+
+def upload_txt_to_s3(local_path): #update txt file in S3 bucket
+    with open(local_path, 'rb') as f:
+        s3.upload_fileobj(
+            f,
+            BUCKET_NAME,
+            'seedList.txt',
+            ExtraArgs={'ACL':'public-read','ContentType':'text/plain'}
+        )

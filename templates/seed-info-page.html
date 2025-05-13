@@ -13,15 +13,13 @@
         <div class="match-title">{{match}}</div>
         <div class="square-seed-preview">
             {% for filename in filenames%}
-            <img class="little-photo" src="{{ url_for('static', filename='icons/' + filename) }}">
+            <img class="little-photo" src="{{ filename }}">
             {% endfor %}
             <div class="pdf-options-box">Create pdf:
-                <form action="/pdf-viewer?variety={{match}}" method="get">
-                    <!-- Seed variety -->
-                    <label for="variety">Seed</label><br>
-                    <select id="variety" name="variety">
-                        <option value="{{match}}">{{match}}</option>
-                    </select>
+                <form action="{{ url_for('pdf_viewer') }}" method="get">
+                    <!-- pre-select the variety via a hidden field -->
+                    <input type="hidden" name="variety" value="{{ match }}">
+
                     <!-- Seed company -->
                     <br><label>Seed company:</label>
                     <input class="search-bar" type="textbox" list="company" placeholder="choose company" name="company">
