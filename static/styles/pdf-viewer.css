@@ -3,10 +3,10 @@ body {
     grid-template-rows: 1in 1in 1in 1in 1in 1in 1in 1in 1in 1in;
     background-color: white;
     color: black;
-    margin-left: 0.1875in;
-    margin-right: 0.1875in;
+    margin-left: 0.18in;
+    margin-right: 0.18in;
     margin-top: 0.5in;
-    margin-bottom: 0;
+    margin-bottom: 0.5in;
     font-size: 15px;
 }
 
@@ -15,17 +15,28 @@ p {
     margin-bottom: 0px;
 }
 
+.variety-title {
+    font-size: 17px;
+}
+
+.company-title,
+.date-title {
+    font-size: 15px;
+}
+
 .row {
     display: grid;
-    grid-template-columns: 2.625in 2.625in 2.625in;
+    grid-template-columns: 2.755in 2.755in 2.755in;
 }
 
 .column {
     display: grid;
-    grid-template-columns: 0.95in 1fr;
+    grid-template-columns: 0.92in 1fr;
     margin-right: 0.125in;
+    padding: 0.10in;
 }
 
 img {
-    width: 0.9in;
+    width: 0.8in;
+    margin-right: 0.12in;
 }
