@@ -28,7 +28,7 @@ brocolli: green magic
 chamomile: german
 black-eyed susan: triloba
 sunflower: autumn beauty, teddy bear, royal
-sweet marjoram:
+sweet marjoram:common
 cucumber: striped armenian
 tomato: black cherry
 amaranth: 

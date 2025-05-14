@@ -172,5 +172,5 @@ def upload_txt_to_s3(local_path): #update txt file in S3 bucket
             f,
             BUCKET_NAME,
             'seedList.txt',
-            ExtraArgs={'ACL':'public-read','ContentType':'text/plain'}
+            ExtraArgs={'ContentType':'text/plain'}
         )
