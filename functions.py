@@ -11,6 +11,9 @@ session = boto3.session.Session(
     region_name=os.getenv("AWS_DEFAULT_REGION")
 )
 
+#check if properly fetched on Render
+print(session.get_credentials().get_frozen_credentials())
+
 s3 = session.client('s3')
 BUCKET_NAME = 'grownyc-app-assets'
 
