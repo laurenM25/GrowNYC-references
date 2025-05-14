@@ -3,6 +3,10 @@ from werkzeug.utils import secure_filename
 import boto3
 import qrcode
 import os
+from datetime import datetime, timezone, timedelta
+#checking time drift - DEBUGGING
+print(datetime.now(timezone(timedelta(hours=-5), 'EST')))
+
 
 # Initialize boto3 S3 client (for remote storage of photos)
 session = boto3.session.Session(
@@ -20,7 +24,7 @@ BUCKET_NAME = 'grownyc-app-assets'
 def names_and_photos(matches):
     my_dict = {}
 
-    base = f"https://{BUCKET_NAME}.s3.amazonaws.com/icons/"
+    base = f"https://{BUCKET_NAME}.s3.us-east-1.amazonaws.com/icons/"
     for match in matches:
         key = match.strip().replace(" ", "-")
         my_dict[match] = [
@@ -68,7 +72,7 @@ def create_qr_code(data, filename):
         f'icons/{filename}',
         ExtraArgs={'ContentType': 'image/png'}
     )
-    return f"https://{BUCKET_NAME}.s3.amazonaws.com/icons/{filename}"
+    return f"https://{BUCKET_NAME}.s3.us-east-1.amazonaws.com/icons/{filename}"
 
 def get_photo_filename(variety_name):
     variety_name = variety_name.strip().lower()
@@ -161,7 +165,7 @@ def save_user_input_img(filepath, file):
         )
 
         # Return public URL for the image
-        s3_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/icons/{filename}"
+        s3_url = f"https://{BUCKET_NAME}.s3.us-east-1.amazonaws.com/icons/{filename}"
         return s3_url
 
     return None
