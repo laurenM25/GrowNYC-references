@@ -4,6 +4,8 @@ import boto3
 import qrcode
 import os
 from datetime import datetime, timezone, timedelta
+import requests
+
 #checking time drift - DEBUGGING
 print(datetime.now(timezone(timedelta(hours=-5), 'EST')))
 
@@ -20,6 +22,17 @@ print(session.get_credentials().get_frozen_credentials())
 
 s3 = session.client('s3')
 BUCKET_NAME = 'grownyc-app-assets'
+
+def generate_presigned_url(key, content_type, expiration=3600): #use presigned url 
+    return s3.generate_presigned_url(
+        'put_object',
+        Params={
+            'Bucket': BUCKET_NAME,
+            'Key': key,
+            'ContentType': content_type
+        },
+        ExpiresIn=expiration
+    )
 
 def names_and_photos(matches):
     my_dict = {}
@@ -66,12 +79,19 @@ def create_qr_code(data, filename):
     img.save(buf, format='PNG')
     buf.seek(0)
 
-    s3.upload_fileobj(
-        buf,
-        BUCKET_NAME,
-        f'icons/{filename}',
-        ExtraArgs={'ContentType': 'image/png'}
+    s3_key = f'icons/{filename}'
+    presigned_url = generate_presigned_url(s3_key, 'image/png')
+
+    # Upload via HTTP PUT
+    response = requests.put(
+        presigned_url,
+        data=buf,
+        headers={'Content-Type': 'image/png'}
     )
+
+    if response.status_code != 200:
+        raise Exception(f"Failed to upload QR code: {response.text}")
+
     return f"https://{BUCKET_NAME}.s3.us-east-1.amazonaws.com/icons/{filename}"
 
 def get_photo_filename(variety_name):
@@ -148,33 +168,31 @@ def update_database_list(generic, specific, company, QR_link, image):
 
     #DEAL WITH COMPANY LATER --> johnny default, but if Hudson, need that to reflect in filename
 
-
-def create_QR(link_for_QR):
-    #create QR, save to icons
-    return
-
 def save_user_input_img(filepath, file):
 
     if file:
         filename = secure_filename(filepath)
-        s3.upload_fileobj(
-            file,
-            BUCKET_NAME,
-            f'icons/{filename}',
-            ExtraArgs={'ContentType': file.content_type}
+        s3_key = f'icons/{filename}'
+        presigned_url = generate_presigned_url(s3_key, file.content_type)
+        response = requests.put(
+            presigned_url,
+            data=file,
+            headers={'Content-Type': file.content_type}
         )
-
-        # Return public URL for the image
-        s3_url = f"https://{BUCKET_NAME}.s3.us-east-1.amazonaws.com/icons/{filename}"
-        return s3_url
-
+        if response.status_code != 200:
+            raise Exception(f"Failed to upload image: {response.text}")
+        return f"https://{BUCKET_NAME}.s3.us-east-1.amazonaws.com/icons/{filename}"
     return None
 
 def upload_txt_to_s3(local_path): #update txt file in S3 bucket
     with open(local_path, 'rb') as f:
-        s3.upload_fileobj(
-            f,
-            BUCKET_NAME,
-            'seedList.txt',
-            ExtraArgs={'ContentType':'text/plain'}
+        s3_key = 'seedList.txt'
+        presigned_url = generate_presigned_url(s3_key, 'text/plain')
+        response = generate_presigned_url(s3_key, 'text/plain')
+        response = requests.put(
+            presigned_url,
+            data=f,
+            headers={'Content-Type': 'text/plain'}
         )
+        if response.status_code != 200:
+            raise Exception(f"Failed to upload text file: {response.text}")
