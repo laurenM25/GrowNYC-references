@@ -7,7 +7,12 @@ from datetime import datetime, timezone, timedelta
 import requests
 
 #checking time drift - DEBUGGING
-print(datetime.now(timezone(timedelta(hours=-5), 'EST')))
+# Local server time
+print("Local UTC:", datetime.now(timezone.utc))
+
+# AWS server time via HTTP Date header
+response = requests.head('https://s3.amazonaws.com')
+print("AWS Server time:", response.headers['Date'])
 
 
 # Initialize boto3 S3 client (for remote storage of photos)
@@ -188,7 +193,6 @@ def upload_txt_to_s3(local_path): #update txt file in S3 bucket
     with open(local_path, 'rb') as f:
         s3_key = 'seedList.txt'
         presigned_url = generate_presigned_url(s3_key, 'text/plain')
-        response = generate_presigned_url(s3_key, 'text/plain')
         response = requests.put(
             presigned_url,
             data=f,
