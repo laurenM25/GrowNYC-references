@@ -9,12 +9,11 @@
 <body>
     <div class="page-heading">{{seed}} Possible Matches:</div>
     <div>
-        {% for match, filenames in matches.items() %}
+        {% for match, (QR, photo) in matches.items() %}
         <div class="match-title">{{match}}</div>
         <div class="square-seed-preview">
-            {% for filename in filenames%}
-            <img class="little-photo" src="{{ filename }}">
-            {% endfor %}
+            <a class="little-photo" href={{QR}} target="_blank">Webpage</a>
+            <img class="little-photo" src="{{ photo }}">
             <div class="pdf-options-box">Create pdf:
                 <form action="{{ url_for('pdf_viewer') }}" method="get">
                     <!-- pre-select the variety via a hidden field -->
